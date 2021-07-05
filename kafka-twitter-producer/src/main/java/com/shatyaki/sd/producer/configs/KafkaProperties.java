@@ -1,4 +1,4 @@
-package com.shatyaki.sd.kafka.simple.configs;
+package com.shatyaki.sd.producer.configs;
 
 import java.util.Properties;
 

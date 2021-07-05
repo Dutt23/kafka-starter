@@ -10,5 +10,10 @@ buildNumber.properties
 # https://github.com/takari/maven-wrapper#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
 bin
-/.settings
+.settings
 .project
+.classpath
+/kafka-twitter-producer/.settings
+/kafka-twitter-producer/.classpath
+/kafka-elastic-search-consumer/.settings
+/kafka-elastic-search-consumer/.classpath
