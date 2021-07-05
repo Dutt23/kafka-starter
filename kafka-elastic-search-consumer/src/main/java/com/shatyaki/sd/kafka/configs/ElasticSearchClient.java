@@ -14,8 +14,9 @@ import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.elasticsearch.action.bulk.BulkRequest;
+import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.index.IndexRequest;
-import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
@@ -71,6 +72,8 @@ public class ElasticSearchClient {
         while (true) {
             ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(1000));
 
+            BulkRequest bulkRequest = new BulkRequest();
+            logger.info("Received messages : " + records.count());
             for (ConsumerRecord<String, String> record : records) {
                 // insert data into elastic search
 
@@ -78,14 +81,25 @@ public class ElasticSearchClient {
 //                String messageId = record.topic() +"_"+ record.partition() +"_"+ record.offset();
 
 //                Twitter feed specific id 
-                String messageId = extractIdFromTweet(record.value());
-                IndexRequest request = new IndexRequest("twitter").id(messageId).source(String.valueOf(record.value()),
-                        XContentType.JSON);
-                IndexResponse resp = client.index(request, RequestOptions.DEFAULT);
-                String id = resp.getId();
-                logger.info("id : " + id);
-                Thread.sleep(1000);
+                try {
+                    String messageId = extractIdFromTweet(record.value());
+                    IndexRequest request = new IndexRequest("twitter").id(messageId).source(String.valueOf(record.value()),
+                            XContentType.JSON);
+                    bulkRequest.add(request); // Add to bulk request 
+                }
+                catch(Exception e) {
+                    logger.warn("Skipping bad data : " + record.value());
+                }
+                
+         
             }
+            if(records.count() > 0) {
+                BulkResponse resp = client.bulk(bulkRequest, RequestOptions.DEFAULT);  
+            }
+            
+            logger.info("Commiting offsets");
+            consumer.commitSync();
+            logger.info("offsets have been commited");
         }
 //        client.close();
 

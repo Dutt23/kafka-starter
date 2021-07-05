@@ -17,6 +17,8 @@ public class KafkaConsumerConfig {
     //        Latest - Read only new messages onwards
     //        None - Throws error
             properties.setProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+            properties.setProperty(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false");
+            properties.setProperty(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "100");
             return properties;
         }
 }
