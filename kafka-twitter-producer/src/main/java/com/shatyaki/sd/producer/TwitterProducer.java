@@ -82,10 +82,10 @@ public class TwitterProducer {
         // Optional: set up some followings and track terms
 //        List<Long> followings = Arrays.asList(1234L, 566788L);
         List<String> terms = Arrays.asList("kafka", "usa", "politics");
-        String consumerKey = "BYerkbtVUoUXu92ThospCtIgV";
-        String consumerSecret = "4daq5iKGA6cSg8EdFIoovjjW1e56J79eGYeYmAaMH0rSWjbDLt";
-        String token = "1596578803-DwYZxIXBhK8mqcDPQVAJYkb4ktWMuekUIOc9vRo";
-        String secret = "mmi5p93PSTuA39x4zOXnB35tr36FuZZoIiT5YBDUrnEpj";
+        String consumerKey = "";
+        String consumerSecret = "";
+        String token = "";
+        String secret = "j";
 //        hosebirdEndpoint.followings(followings);
         hosebirdEndpoint.trackTerms(terms);
         Authentication hosebirdAuth = new OAuth1(consumerKey, consumerSecret, token, secret);
