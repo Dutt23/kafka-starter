@@ -33,6 +33,15 @@ public class KafkaProperties {
         return properties;
     }
     
+    public Properties getHighThroughputProperties() {
+//        Expense at latency and cpu utilisation
+        Properties properties = getIdempotentProducerProperties();
+        properties.setProperty(ProducerConfig.COMPRESSION_TYPE_CONFIG, "snappy");
+        properties.setProperty(ProducerConfig.LINGER_MS_CONFIG, "20");
+        properties.setProperty(ProducerConfig.BATCH_SIZE_CONFIG, Integer.toString(32*1024)); // 32kb
+        return properties;
+    }
+    
     
     public Properties getConsumerProperties() {
         Properties properties = new Properties();

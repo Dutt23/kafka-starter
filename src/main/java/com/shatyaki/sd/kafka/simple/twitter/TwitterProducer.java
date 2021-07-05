@@ -66,7 +66,7 @@ public class TwitterProducer {
     
     public KafkaProducer<String, String> getTwitterProducer(){
         KafkaProperties kafkaProperties = new KafkaProperties();
-        Properties producerProperties = kafkaProperties.getIdempotentProducerProperties();
+        Properties producerProperties = kafkaProperties.getHighThroughputProperties();
         KafkaProducer<String, String> producer = new KafkaProducer<String, String>(producerProperties);
         return producer;
     }
@@ -81,7 +81,7 @@ public class TwitterProducer {
         StatusesFilterEndpoint hosebirdEndpoint = new StatusesFilterEndpoint();
         // Optional: set up some followings and track terms
 //        List<Long> followings = Arrays.asList(1234L, 566788L);
-        List<String> terms = Arrays.asList("kafka", "api");
+        List<String> terms = Arrays.asList("kafka", "usa", "politics");
         String consumerKey = "";
         String consumerSecret = "";
         String token = "";
